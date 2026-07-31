@@ -1,2 +1,7 @@
-node_modules
-target
+node_modules/
+target/
+__pycache__/
+*.py[cod]
+.venv/
+coverage/
+.DS_Store

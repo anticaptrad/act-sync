@@ -1,0 +1,40 @@
+name: Validate reconciliation model
+
+on:
+  push:
+    branches:
+      - main
+      - 'agent/**'
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Reject unresolved conflict markers
+        run: |
+          if grep -RInE '^(<<<<<<<|=======|>>>>>>>)' --exclude-dir=.git .; then
+            echo 'Unresolved Git conflict markers found.' >&2
+            exit 1
+          fi
+
+      - name: Compile reference model
+        run: python3 -m compileall -q act_sync tests
+
+      - name: Run reconciliation tests
+        run: python3 -m unittest discover -s tests -v
