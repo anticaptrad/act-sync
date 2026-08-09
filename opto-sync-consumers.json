@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "syncRepository": "anticaptrad/act-sync",
+  "dependency": {
+    "package": "opto-sync/opto-sync-clients",
+    "range": "^0.2.0"
+  },
+  "persistence": {
+    "web": ["indexeddb"],
+    "mobile": ["sqlite"],
+    "backend": ["postgres", "supabase"]
+  },
+  "securityExclusions": [
+    "provider access and refresh tokens",
+    "authorization headers and API keys",
+    "unredacted provider responses",
+    "cross-tenant job and lease state"
+  ],
+  "applications": [
+    {
+      "repository": "anticaptrad/act-web-server.rs",
+      "ref": "634c9f715402f349d15ea107e1f722cd1244cb20",
+      "kind": "rust-web",
+      "manifest": "Cargo.toml",
+      "workingDirectory": ".",
+      "testCommand": "cargo test --all-targets",
+      "buildCommand": "cargo build --all-targets",
+      "dependencies": [],
+      "dependencyOverrides": {}
+    }
+  ]
+}

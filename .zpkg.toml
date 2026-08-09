@@ -1,0 +1,17 @@
+[package]
+org = "anticaptrad"
+name = "act-sync"
+version = "0.1.0"
+description = "Anticaptrad provider-state sync facade backed by the certified opto-sync client SDK"
+license = "MIT"
+keywords = ["sync", "local-first", "indexeddb", "sqlite", "postgres", "supabase", "reconciliation"]
+
+[package.repository]
+vcs = "git"
+url = "https://github.com/anticaptrad/act-sync"
+
+[dependencies]
+"opto-sync/opto-sync-clients" = "^0.2.0"
+
+[install]
+dir = "zed_modules"

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://opto-sync.dev/schemas/downstream-adapter-v1.json",
+  "schemaVersion": 1,
+  "repository": "anticaptrad/act-sync",
+  "e2eRepository": "anticaptrad/act-e2e",
+  "rolloutIssue": "DEN-1388",
+  "releaseGate": "DEN-309",
+  "releaseState": "blocked-until-certified-package-published",
+  "dependency": {"package": "opto-sync/opto-sync-clients", "range": "^0.2.0", "installRoot": "zed_modules/opto-sync/opto-sync-clients"},
+  "nativeAdapters": {
+    "rust": {"package": "opto-sync-client", "path": "zed_modules/opto-sync/opto-sync-clients/clients/rust"},
+    "typescript": {"package": "@opto-sync/client", "path": "zed_modules/opto-sync/opto-sync-clients/clients/ts"},
+    "dart": {"package": "opto_sync_client", "path": "zed_modules/opto-sync/opto-sync-clients/clients/dart"}
+  },
+  "persistence": {"web": ["indexeddb"], "mobile": ["sqlite"], "backend": ["postgres", "supabase"]},
+  "productCollections": ["provider_jobs", "provider_observations", "reconciliation_requests"],
+  "wrapperRetains": [
+    "Anticaptrad request/provider envelopes and exact provider identity mapping",
+    "fail-closed provider and terminal-state policy",
+    "authorization, idempotency, retry, lease, and error mapping",
+    "the existing Python reducer as an executable product-policy specification",
+    "Anticaptrad telemetry, migrations, and public facade"
+  ],
+  "delegatesToOptoSync": [
+    "deterministic document reconciliation",
+    "hybrid logical clock and mutation identity",
+    "durable queue lifecycle and local-view rebase",
+    "IndexedDB and SQLite storage primitives",
+    "checkpointed push/pull protocol loop",
+    "background and realtime wake adapters"
+  ],
+  "invariants": {"renderLocalView": true, "realtimeIsWakeHint": true, "serverCursorIsAuthoritative": true, "mutableGitRefsForbidden": true, "removeBespokeCoreOnlyAfterParity": true}
+}
