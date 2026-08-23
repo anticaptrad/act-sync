@@ -35,3 +35,11 @@ The tests cover duplicates, conflicting duplicates, impossible transitions, chan
 Inputs are redacted lifecycle events and provider observations. Durable storage, NATS subscriptions, Apps Script credentials, Drive access, YouTube polling, retry scheduling, and dead-letter handling remain deployment concerns tracked under DEN-401 through DEN-403.
 
 Licensed under the MIT License.
+
+## Environment secrets
+
+Secrets live in this repo **encrypted** with [sops](https://github.com/getsops/sops) + [age](https://github.com/FiloSottile/age):
+`env/enc/<dev|prod>.env.enc` is committed; `just env-use <name>` decrypts it to
+`env/dec/<name>.env` (gitignored, mode 0600) and symlinks `./.env` to it. The
+Nix dev shell provides the tooling, `just env-audit` runs keyless in CI, and
+containers decrypt at `docker run` — never at build. See [`env/README.md`](env/README.md).
