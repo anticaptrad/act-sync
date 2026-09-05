@@ -11,7 +11,7 @@ vcs = "git"
 url = "https://github.com/anticaptrad/act-sync"
 
 [dependencies]
-"opto-sync/opto-sync-clients" = "^0.2.0"
+"opto-sync/opto-sync-clients" = "^0.4.0"
 
 [install]
 dir = "zed_modules"
