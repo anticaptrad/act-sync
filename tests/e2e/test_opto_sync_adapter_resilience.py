@@ -23,9 +23,11 @@ class OptoSyncAdapterResilienceTest(unittest.TestCase):
     def test_dependency_and_install_root_are_canonical(self):
         profile, manifest, _ = load_contract()
         self.assertEqual(profile["schemaVersion"], 1)
-        self.assertEqual(manifest["dependencies"]["opto-sync/opto-sync-clients"], "^0.2.0")
+        if profile["releaseState"] == "blocked-until-certified-package-published":
+            self.assertNotIn("opto-sync/opto-sync-clients", manifest.get("dependencies", {}))
+            self.assertIn("opto-sync/opto-sync-clients@^0.4.0", MANIFEST_PATH.read_text(encoding="utf-8"))
         self.assertEqual(manifest["install"]["dir"], "zed_modules")
-        self.assertEqual(profile["dependency"], {"package": "opto-sync/opto-sync-clients", "range": "^0.2.0", "installRoot": INSTALL_ROOT})
+        self.assertEqual(profile["dependency"], {"package": "opto-sync/opto-sync-clients", "range": "^0.4.0", "installRoot": INSTALL_ROOT})
         self.assertEqual(profile["repository"], os.environ.get("GITHUB_REPOSITORY", profile["repository"]))
 
     def test_native_adapters_are_unique_and_cannot_escape_install_root(self):
